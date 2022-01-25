@@ -1,0 +1,79 @@
+﻿<Window x:Class="SpasticityClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:SpasticityClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Background>
+        <SolidColorBrush Color="DimGray">
+        </SolidColorBrush>
+    </Window.Background>
+
+    <Window.DataContext>
+        <local:MainWindowViewModel></local:MainWindowViewModel>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:ChartModel}" x:Key="EMGChart">
+            <local:EMGChart></local:EMGChart>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:ChartModel}" x:Key="ForceChart">
+            <local:ForceChart></local:ForceChart>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:ChartModel}" x:Key="AngleChart">
+            <local:AngleChart></local:AngleChart>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:ChartModel}" x:Key="AngularVelocityChart">
+            <local:AngularVelocityChart></local:AngularVelocityChart>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid ShowGridLines="False">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding ChartModel}" ContentTemplate="{StaticResource EMGChart}"/>
+        <ContentControl Grid.Row="1" Grid.Column="2" Content="{Binding ChartModel}" ContentTemplate="{StaticResource ForceChart}"/>
+        <ContentControl Grid.Row="2" Grid.Column="1" Content="{Binding ChartModel}" ContentTemplate="{StaticResource AngleChart}"/>
+        <ContentControl Grid.Row="2" Grid.Column="2" Content="{Binding ChartModel}" ContentTemplate="{StaticResource AngularVelocityChart}"/>
+
+        <Button Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200"
+                Content="Read"
+                Command="{x:Static local:ApplicationCommands.ReadCommand}">
+        </Button>
+        
+        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30" Text="Port #:"></TextBlock>
+            <ComboBox Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" 
+                      VerticalAlignment="Center" Width="100" Margin="30" 
+                      ItemsSource="{Binding PortNames}" 
+                      SelectedItem="{Binding PortName}">
+            </ComboBox>
+        </Grid>
+    </Grid>
+
+    
+
+</Window>
