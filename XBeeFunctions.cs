@@ -8,12 +8,12 @@ namespace SpasticityClient
     {
         public string StartDelimiter { get; set; }
         public int Length { get; set; }
-        public string RSSI { get; set; }
-        public string FrameType { get; set; }
-        public string Address16bit { get; set; }
-        public string ReceiveOption { get; set; }
-        public List<string> Data { get; set; }
-        public string CheckSum { get; set; }
+        //public string RSSI { get; set; }
+        public string FrameType { get; set; } //0x90 for recieve packet
+        public string Address16bit { get; set; } //Actually 64 bit, BP Monitor address is 0x0013A2004097A085
+        public string ReceiveOption { get; set; } //8 Bit as per page 153
+        public List<string> Data { get; set; } //Data payload
+        public string CheckSum { get; set; } //0xFF minus the 8-bit sum of bytes from offset 3 to this byte (between length and checksum).
     }
 
     public static class XBeeFunctions
@@ -72,30 +72,33 @@ namespace SpasticityClient
 
             while (hexFull.Count > 15)
             {
+                //If you find the start delimiter
                 if (hexFull[0] == "7E")
                 {
+                    //The next two bits represent the length 
                     var length = int.Parse(hexFull[1] + hexFull[2], System.Globalization.NumberStyles.HexNumber);
                     if (length != 105)
                     {
                         isWrongStart = true;
                     }
-                    // Parse contents into XBeePacket vars as above
+                    //Parse contents into XBeePacket vars as above
                     else
                     {
                         var frameType = hexFull[3];
 
-                        if (frameType == "81")
+                        if (frameType == "90") //0x90 for recieve packet
                         {
                             if (hexFull.Count < length + 4)
                                 break;
 
                             var packetDataBytes = hexFull.GetRange(4, length);
-                              
+                            
+                            //May not be exact here since this lives on bytes 4-11
                             var source16Addess = string.Join("", packetDataBytes.GetRange(0, 2));
 
-                            var RSSI = packetDataBytes[2];
-                            var receiveOption = packetDataBytes[3];
-                            var data = packetDataBytes.GetRange(4, length - 4);
+                            //var RSSI = packetDataBytes[2];
+                            var receiveOption = packetDataBytes[10];
+                            var data = packetDataBytes.GetRange(10, length - 10);
                             var checkSum = packetDataBytes[length-1];
 
                             XBeePacket xbeePacket = new XBeePacket();
@@ -107,7 +110,7 @@ namespace SpasticityClient
                             xbeePacket.Data = data;
                             xbeePacket.CheckSum = checkSum;
                             packets.Add(xbeePacket);
-                            hexFull.RemoveRange(0, 4 + length);
+                            hexFull.RemoveRange(0, 10 + length);
 
                         }
                         else
