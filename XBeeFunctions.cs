@@ -38,7 +38,7 @@ namespace SpasticityClient
                 {
                     searchNext = false;
                     var idx = leftHexData.IndexOf("7E", searchIdx);
-                    if (idx >= 0 && leftHexData.Count > idx + 2 && leftHexData[idx + 1] == "00" && leftHexData[idx + 2] == "1E")
+                    if (idx >= 0 && leftHexData.Count > idx + 2 && leftHexData[idx + 1] == "00" && leftHexData[idx + 3] == "90")
                     {
                         var parsedList = leftHexData.GetRange(0, idx);
                         returnHex.Add(parsedList);
@@ -77,6 +77,7 @@ namespace SpasticityClient
                 {
                     //The next two bits represent the length 
                     var length = int.Parse(hexFull[1] + hexFull[2], System.Globalization.NumberStyles.HexNumber);
+                    // Check below number
                     if (length != 105)
                     {
                         isWrongStart = true;
@@ -88,16 +89,17 @@ namespace SpasticityClient
 
                         if (frameType == "90") //0x90 for recieve packet
                         {
-                            if (hexFull.Count < length + 4)
+                            if (hexFull.Count < length + 17)
                                 break;
 
                             var packetDataBytes = hexFull.GetRange(4, length);
-                            
-                            //May not be exact here since this lives on bytes 4-11
-                            var source16Addess = string.Join("", packetDataBytes.GetRange(0, 2));
+
+                            //Check this to make sure
+                            var source16Addess = string.Join("", packetDataBytes.GetRange(0,8));
 
                             //var RSSI = packetDataBytes[2];
                             var receiveOption = packetDataBytes[10];
+                            //Check this to make sure
                             var data = packetDataBytes.GetRange(10, length - 10);
                             var checkSum = packetDataBytes[length-1];
 
