@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Khilesh\Github\BloodPressureOxygen\obj\Debug\
+C:\Users\VR-7\source\repos\BloodPressureOxygen\obj\Debug\
 SpasticityClient
 none
 false
 DEBUG;TRACE
-D:\Khilesh\Github\BloodPressureOxygen\App.xaml
+C:\Users\VR-7\source\repos\BloodPressureOxygen\App.xaml
 6-1790168282
 
 16-231807204
-251720305351
+25-1235079126
 AngleChart.xaml;AngularVelocityChart.xaml;EMGChart.xaml;ForceChart.xaml;MainWindow.xaml;SaveInputDialog.xaml;
 
 True

@@ -157,8 +157,9 @@ namespace SpasticityClient
             sendxBeePacket.ReceiveOption = "00000000000000C0"; //actually the transmit option in this case
             sendxBeePacket.Data = data; //write function to assemble data based on keypress
             sendxBeePacket.CheckSum = checkSum; //C0? write function to generate checksum based on char length
+
+            //Add send packet to list and send from XBeeData
             sendxBeePacket.Add(xbeePacket);
-            sendxBeePacket.RemoveRange(0, 10 + length);
             return " ";
         }
 
