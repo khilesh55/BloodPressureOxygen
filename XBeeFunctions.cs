@@ -70,7 +70,8 @@ namespace SpasticityClient
             var leftHex = string.Empty;
             var isWrongStart = false;
 
-            while (hexFull.Count > 15)
+            //Check num below
+            while (hexFull.Count > 20)
             {
                 //If you find the start delimiter
                 if (hexFull[0] == "7E")
@@ -95,13 +96,13 @@ namespace SpasticityClient
                             var packetDataBytes = hexFull.GetRange(4, length);
 
                             //Check this to make sure
-                            var source16Addess = string.Join("", packetDataBytes.GetRange(0,8));
+                            var source16Addess = string.Join("", packetDataBytes.GetRange(0, 8));
 
                             //var RSSI = packetDataBytes[2];
                             var receiveOption = packetDataBytes[10];
                             //Check this to make sure
                             var data = packetDataBytes.GetRange(10, length - 10);
-                            var checkSum = packetDataBytes[length-1];
+                            var checkSum = packetDataBytes[length - 1];
 
                             XBeePacket xbeePacket = new XBeePacket();
                             xbeePacket.StartDelimiter = hexFull[0];
@@ -144,6 +145,21 @@ namespace SpasticityClient
                 return string.Join("-", hexFull) + "-";
             else
                 return "";
+        }
+
+        public static string WritePacketHex(List<string> hexFullSend, List<XBeePacket> packetsSend);
+        {
+            XBeePacket sendxBeePacket = new XBeePacket();
+            sendxBeePacket.StartDelimiter = "7E";
+            sendxBeePacket.Length = "0010"; //placeholder
+            sendxBeePacket.FrameType = "10";
+            sendxBeePacket.Address16bit = "0013A2004097A085"; //case handling for blood pressure and oxygen
+            sendxBeePacket.ReceiveOption = "00000000000000C0"; //actually the transmit option in this case
+            sendxBeePacket.Data = data; //write function to assemble data based on keypress
+            sendxBeePacket.CheckSum = checkSum; //C0? write function to generate checksum based on char length
+            sendxBeePacket.Add(xbeePacket);
+            sendxBeePacket.RemoveRange(0, 10 + length);
+            return " ";
         }
 
         // Get names of usable ports

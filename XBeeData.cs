@@ -358,6 +358,20 @@ namespace SpasticityClient
             }
         }
 
+        public void Write(int keepRecords, ChartModel chartModel)
+        {
+            try
+            {
+                serialPort.Open();
+                var writeHex = string.Empty;
+                //call writePacketHex;
+            }
+            finally
+            {
+                Stop();
+            }
+        }
+
         public float MovingAverage(int arrayLength, List<float> angleArray)
         {
             float movingSum = angleArray.Sum();
