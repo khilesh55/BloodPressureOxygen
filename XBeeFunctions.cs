@@ -18,7 +18,7 @@ namespace SpasticityClient
 
     public static class XBeeFunctions
     {
-        // Why need a 2 string dictionary with source 16 addresses?
+        // 2 string dict of device addresses
         public static Dictionary<string, string> Source16Addresses = new Dictionary<string, string>();
 
         // Create a list of lists of strings by following function taking packet hex data, left hex data and total expected char length
@@ -147,21 +147,33 @@ namespace SpasticityClient
                 return "";
         }
 
-        public static string WritePacketHex(List<string> hexFullSend, List<XBeePacket> packetsSend);
+        public static string WritePacketHex(List<XBeePacket> writePackets)
         {
-            XBeePacket sendxBeePacket = new XBeePacket();
-            sendxBeePacket.StartDelimiter = "7E";
-            sendxBeePacket.Length = "0010"; //placeholder
-            sendxBeePacket.FrameType = "10";
-            sendxBeePacket.Address16bit = "0013A2004097A085"; //case handling for blood pressure and oxygen
-            sendxBeePacket.ReceiveOption = "00000000000000C0"; //actually the transmit option in this case
-            sendxBeePacket.Data = data; //write function to assemble data based on keypress
-            sendxBeePacket.CheckSum = checkSum; //C0? write function to generate checksum based on char length
+            XBeePacket sendxBeePackets = new XBeePacket();
+            sendxBeePackets.StartDelimiter = "7E";
+            sendxBeePackets.Length = 20; //placeholder
+            sendxBeePackets.FrameType = "10";
 
+            //3 different blood pressure device sources
+            sendxBeePackets.Address16bit = "0013A2004097A087"; //case handling for blood pressure and oxygen
+            sendxBeePackets.ReceiveOption = "00000000000000C0"; //actually the transmit option in this case
+            sendxBeePackets.Data.Add("0000"); //write function to assemble data based on keypress
+            sendxBeePackets.CheckSum = "C0"; //C0? write function to generate checksum based on char length
+            var sendPacketHex = sendxBeePackets.Address16bit+sendxBeePackets.ReceiveOption+sendxBeePackets.Data;
+            var sendPacketLength = sendPacketHex.Split().Length;
             //Add send packet to list and send from XBeeData
-            sendxBeePacket.Add(xbeePacket);
+            writePackets.Add(sendxBeePackets);
             return " ";
         }
+
+        // Add box on UI allowing MAC address selection
+        // Possibly open broadcast for oxygen, send request and listen for response for pressure
+        // Dropdown menu for requests
+        // Buttons for entering modes (ischemic --> std) 
+        // Initiate ischemia induction sequence & keep track of time (> 5 min failsafe)
+        // Option to change time window
+
+        // Excel output: tailor format for client's needs
 
         // Get names of usable ports
         public static List<string> GetPortNamesByBaudrate(int baudRate)

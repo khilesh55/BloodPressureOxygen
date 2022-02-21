@@ -45,15 +45,21 @@ namespace SpasticityClient
         #endregion
 
         #region properties
-        public DelegateCommand ReadCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
-        public DelegateCommand StopCommand { get; set; }
+        public DelegateCommand QueryCommand { get; private set; }
+        public DelegateCommand PeakCommand { get; private set; }
+        
+        public DelegateCommand EnterICCommand { get; private set; }
+        public DelegateCommand StartICCommand { get; private set; }
+        public DelegateCommand StopICCommand { get; set; }
+
+        public DelegateCommand EnterBPCommand { get; private set; }
+        public DelegateCommand StartBPCommand { get; private set; }
+        public DelegateCommand StopBPCommand { get; set; }
 
         public bool IsRunning { get; set; }
 
-        public ChartValues<MeasureModel> EMGValues { get; set; }
         public ChartValues<MeasureModel> ForceValues { get; set; }
-        public ChartValues<MeasureModel> AngleValues { get; set; }
         public ChartValues<MeasureModel> AngularVelocityValues { get; set; }
 
         public List<SessionData> SessionDatas { get; set; }
@@ -94,17 +100,6 @@ namespace SpasticityClient
             PortName = portname;
             _xbeeData = new XBeeData(portname);
 
-            ReadCommand = new DelegateCommand(
-                executeMethod: () =>
-                {
-                    Read();
-                    QueryCanExecute();
-                },
-                canExecuteMethod: () =>
-                {
-                    return IsRunning == false;
-                });
-
             SaveCommand = new DelegateCommand(
                 executeMethod: () =>
                 {
@@ -117,10 +112,21 @@ namespace SpasticityClient
                            _xbeeData.IsCancelled == true;
                 });
 
-            StopCommand = new DelegateCommand(
+            QueryCommand = new DelegateCommand(
                 executeMethod: () =>
                 {
-                    Dispose();
+                    Query();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == false;
+                });
+
+            PeakCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    Peak();
                     QueryCanExecute();
                 },
                 canExecuteMethod: () =>
@@ -129,9 +135,89 @@ namespace SpasticityClient
                         _xbeeData.IsCancelled == false;
                 });
 
-            ApplicationCommands.ReadCommand.RegisterCommand(ReadCommand);
+            EnterICCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    EnterIC();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == true &&
+                        _xbeeData.IsCancelled == false;
+                });
+
+            StartICCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    StartIC();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == true &&
+                        _xbeeData.IsCancelled == false;
+                });
+
+            StopICCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    StopIC();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == true &&
+                        _xbeeData.IsCancelled == false;
+                });
+
+            EnterBPCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    EnterBP();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == true &&
+                        _xbeeData.IsCancelled == false;
+                });
+
+            StartBPCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    StartBP();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == true &&
+                        _xbeeData.IsCancelled == false;
+                });
+
+            StopBPCommand = new DelegateCommand(
+                executeMethod: () =>
+                {
+                    StopBP();
+                    QueryCanExecute();
+                },
+                canExecuteMethod: () =>
+                {
+                    return IsRunning == true &&
+                        _xbeeData.IsCancelled == false;
+                });
+
             ApplicationCommands.SaveCommand.RegisterCommand(SaveCommand);
-            ApplicationCommands.StopCommand.RegisterCommand(StopCommand);
+            ApplicationCommands.QueryCommand.RegisterCommand(QueryCommand);
+            ApplicationCommands.PeakCommand.RegisterCommand(PeakCommand);
+
+            ApplicationCommands.EnterICCommand.RegisterCommand(EnterICCommand);
+            ApplicationCommands.StartICCommand.RegisterCommand(StartICCommand);
+            ApplicationCommands.StopICCommand.RegisterCommand(StopICCommand);
+
+            ApplicationCommands.EnterBPCommand.RegisterCommand(EnterBPCommand);
+            ApplicationCommands.StartBPCommand.RegisterCommand(StartBPCommand);
+            ApplicationCommands.StopBPCommand.RegisterCommand(StopBPCommand);
 
             IsRunning = false;
 
@@ -144,9 +230,7 @@ namespace SpasticityClient
             Charting.For<MeasureModel>(mapper);
 
             //the values property will store our values array
-            EMGValues = new ChartValues<MeasureModel>();
             ForceValues = new ChartValues<MeasureModel>();
-            AngleValues = new ChartValues<MeasureModel>();
             AngularVelocityValues = new ChartValues<MeasureModel>();
 
             SessionDatas = new List<SessionData>();

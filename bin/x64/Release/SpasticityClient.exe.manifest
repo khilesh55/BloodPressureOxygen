@@ -102,14 +102,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SpasticityClient.exe" size="45480">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SpasticityClient.exe" size="46504">
       <assemblyIdentity name="SpasticityClient" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5ix6D3EsePwHPDGSfAlEJqJ8XHX24ba3qvC9wjzSGY0=</dsig:DigestValue>
+        <dsig:DigestValue>svCFWzPAeUhMBdMwHHFbWqspGeerFm4lZPIk7dRM+MQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

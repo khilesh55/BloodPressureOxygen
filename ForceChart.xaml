@@ -11,7 +11,7 @@
             <RowDefinition Height="0.1*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Force" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <TextBlock Grid.Row="0" Text="Blood Pressure (mmHg)" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <lvc:CartesianChart Grid.Row="1" AnimationsSpeed="0:0:0.5" DataTooltip="{x:Null}" Height="auto" Width="auto" Hoverable="False">
             <lvc:CartesianChart.Series>
                 <lvc:LineSeries Values="{Binding ForceValues}" 

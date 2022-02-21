@@ -19,7 +19,5 @@ namespace SpasticityClient
             InitializeComponent();
             mainWindowViewModel = (MainWindowViewModel)this.DataContext;
         }
-
-        
     }
 }
