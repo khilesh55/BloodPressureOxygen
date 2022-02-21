@@ -137,8 +137,6 @@ namespace SpasticityClient
                                         }
                                         else
                                         {   
-                                            
-                                            
                                             angleArray.Add(angle);
                                             angVelArray.Add(angVelResult);
                                             angVel = Math.Abs((angleArray[angleBufferSize] - angleArray[0])/(timeDiff*angleBufferSize/1000));
@@ -172,7 +170,6 @@ namespace SpasticityClient
 
                                     chartModel.ForceValues.Add(new MeasureModel { DateTime = nowticks, Value = forceDiff });
                                     chartModel.AngularVelocityValues.Add(new MeasureModel { DateTime = nowticks, Value = angVel });
-                                    
                                     chartModel.SetAxisLimits(nowticks);
                                     #endregion
 
