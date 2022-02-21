@@ -52,19 +52,24 @@
         </TextBox>
         <Button Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="15" HorizontalAlignment="Left" Width="200"
             Content="Enter Blood Pressure Mode">
+          Command="{x:Static local:ApplicationCommands.EnterBPCommand}">
+
         </Button>
         <Button Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Left" Width="200"
             Content="Enter Ischemic Conditioning Mode">
+          Command="{x:Static local:ApplicationCommands.EnterICCommand}">
         </Button>
-
         <Button Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" Margin="15" HorizontalAlignment="Left" Width="200"
           Content="Start Pressure Data Stream">
+          Command="{x:Static local:ApplicationCommands.StartBPCommand}">
         </Button>
         <Button Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="15" HorizontalAlignment="Left" Width="200"
           Content="Stop Pressure Data Stream">
+          Command="{x:Static local:ApplicationCommands.StopBPCommand}">
         </Button>
         <Button Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Left" Width="200"
           Content="Report Cycle Peak Pressure">
+          Command="{x:Static local:ApplicationCommands.PeakCommand}">
         </Button>
         <TextBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Right" Width="80">
         </TextBox>
@@ -77,6 +82,7 @@
       
         <Button Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="15" HorizontalAlignment="Left" Width="200"
           Content="Start Ischemic Cycle">
+          Command="{x:Static local:ApplicationCommands.StartICCommand}">
         </Button>
         <Button Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Left" Width="200"
           Content="Stop Ischemic Cycle">
@@ -100,17 +106,6 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
-            <!--<Button Grid.Column="0" VerticalAlignment="Top" Margin="15" HorizontalAlignment="Center" Width="100"
-                Content="Read"
-                Command="{x:Static local:ApplicationCommands.ReadCommand}">
-            </Button>-->
-
-            <!--<Button Grid.Column="0" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Center" Width="100"
-                Content="Stop"
-                Command="{x:Static local:ApplicationCommands.StopCommand}">
-            </Button>-->
-
         </Grid>
     </Grid>
 

@@ -107,12 +107,19 @@ namespace SpasticityClient
                                     var TIME2LSB = Convert.ToByte(data[9], 16);
                                     var TIME1MSB = Convert.ToByte(data[10], 16);
                                     var TIME1LSB = Convert.ToByte(data[11], 16);
+                                    var BLOCMSB  = Convert.ToByte(data[12], 16);
+                                    var BLOCLSB  = Convert.ToByte(data[13], 16);
+                                    var BLOX2MSB = Convert.ToByte(data[14], 16);
+                                    var BLOX2LSB = Convert.ToByte(data[15], 16);
+                                    var BLOX1MSB = Convert.ToByte(data[16], 16);
+                                    var BLOX1LSB = Convert.ToByte(data[17], 16);
+
                                     #endregion
 
                                     #region MSB LSB combination
                                     float elapsedTime = (long)((TIME2MSB & 0xFF) << 24 | (TIME2LSB & 0xFF) << 16 | (TIME1MSB & 0xFF) << 8 | (TIME1LSB & 0xFF));
-                                    float emg = (int)(EMGMSB & 0xFF) << 8 | (EMGLSB & 0xFF);
-                                    float force = (int)((FORMSB & 0xFF) << 8 | (FORLSB & 0xFF));
+                                    float bloodCon = (int)(BLOCMSB & 0xFF) << 8 | (BLOCLSB & 0xFF);
+                                    float bloodOx = (long)((BLOX2MSB & 0xFF) << 24 | (BLOX2LSB & 0xFF) << 16 | (BLOX1MSB & 0xFF) << 8 | (BLOX1LSB & 0xFF));
                                     float angle = (int)((POTANGLEMSB & 0xFF) << 8 | (POTANGLELSB & 0xFF));
                                     #endregion
 
